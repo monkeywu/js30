@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style/style.css">
+</head>
+
+<body>
+  <div class="clock">
+    <div class="clock-face">
+      <div class="hand hour-hand"></div>
+      <div class="hand min-hand"></div>
+      <div class="hand second-hand"></div>
+    </div>
+  </div>
+
+  <script>
+    const secondHand = document.querySelector('.second-hand')
+    const minHand = document.querySelector('.min-hand')
+    const hourHand = document.querySelector('.hour-hand')
+
+    const now = new Date();
+    let seconds = now.getSeconds() * 6 + 90;
+    let minutes = now.getMinutes() * 6 + 90;
+    let hours = now.getHours() * 30 + 90;
+
+    secondHand.style.transform = `rotate(${seconds}deg )`;
+    minHand.style.transform = `rotate(${minutes}deg )`;
+    hourHand.style.transform = `rotate(${hours}deg)`;
+
+    function setDate() {
+      seconds += 360 / 60;
+      minutes += 360 / 3600;
+      hours += 360 / 86400;
+      secondHand.style.transform = `rotate(${seconds}deg )`;
+      minHand.style.transform = `rotate(${minutes}deg )`;
+      hourHand.style.transform = `rotate(${hours}deg)`;
+    }
+    setInterval(setDate, 1000)
+  </script>
+</body>
+
+</html>
