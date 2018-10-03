@@ -1,0 +1,16 @@
+// css的變數
+//--base為背景顏色 --spacing為padding的大小 --blur為濾鏡效果程度
+:root {
+  --base: #ffc600;
+  --spacing: 10px;
+  --blur: 10px;
+}
+//使用變數時用var 
+img {
+  padding: var(--spacing);
+  background: var(--base);
+  filter: blur(var(--blur));
+}
+.hl {
+  color: var(--base);
+}

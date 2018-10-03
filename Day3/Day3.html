@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style/style.css">
+</head>
+
+<body>
+  <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
+
+  <div class="controls">
+    <label for="spacing">Spacing:</label>
+    <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+
+    <label for="blur">Blur:</label>
+    <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+
+    <label for="base">Base Color</label>
+    <input id="base" type="color" name="base" value="#ffc600">
+  </div>
+
+  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+
+  <script>
+    //選擇所有input
+    const inputs = document.querySelectorAll('.controls input');
+    function handleUpdate() {
+      //這邊的this會指向input，dataset.sizing是自己加在input上的data-sizing
+      const suffix = this.dataset.sizing || '';
+      //這邊會抓取到<html>，然後設定更改後input的值到html上，進而改變變數的數值
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+    //將每個input元素監聽change及mousemove事件 都去觸發更新的函示
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+  </script>
+</body>
+
+</html>

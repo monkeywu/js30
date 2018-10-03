@@ -19,23 +19,28 @@
   </div>
 
   <script>
+    //指針選取元素
     const secondHand = document.querySelector('.second-hand')
     const minHand = document.querySelector('.min-hand')
     const hourHand = document.querySelector('.hour-hand')
-
+    //取得現在時間
     const now = new Date();
+    //分針、秒針每動一格是6度，時針30度，div區塊一開始是水平呈現要讓他指到12點位置，所以加上90
     let seconds = now.getSeconds() * 6 + 90;
     let minutes = now.getMinutes() * 6 + 90;
     let hours = now.getHours() * 30 + 90;
-
+    //讓各個指針指到相對位子
     secondHand.style.transform = `rotate(${seconds}deg )`;
     minHand.style.transform = `rotate(${minutes}deg )`;
     hourHand.style.transform = `rotate(${hours}deg)`;
 
     function setDate() {
+      //每秒鐘6度
       seconds += 360 / 60;
+      //分針轉一圈60分鐘，3600秒
       minutes += 360 / 3600;
-      hours += 360 / 86400;
+      //時針轉一圈43200秒
+      hours += 360 / 43200;
       secondHand.style.transform = `rotate(${seconds}deg )`;
       minHand.style.transform = `rotate(${minutes}deg )`;
       hourHand.style.transform = `rotate(${hours}deg)`;
