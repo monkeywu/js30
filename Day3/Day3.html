@@ -30,6 +30,7 @@
     const inputs = document.querySelectorAll('.controls input');
     function handleUpdate() {
       //這邊的this會指向input，dataset.sizing是自己加在input上的data-sizing
+      //改變顏色的input並沒有dataset-sizing這個屬性，所以加上''，如果沒有加會變成undefined，就出錯了
       const suffix = this.dataset.sizing || '';
       //這邊會抓取到<html>，然後設定更改後input的值到html上，進而改變變數的數值
       document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
