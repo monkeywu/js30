@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style/style.css">
+</head>
+
+<body>
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+
+  <script>
+    //取得json資料的網址
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    //宣告一個陣列儲存資料
+    const cities = [];
+    //使用fetch取得資料，要注意瀏覽器支援程度
+    fetch(endpoint)
+      .then(blob => blob.json())
+      //使用es6 spread語法將資料丟到陣列裡
+      .then(data => cities.push(...data));
+    //函式帶有兩個參數，一個是使用者輸入的文字，另一個是取回丟到陣列裡的資料  
+    function findMatches(wordToMatch, cities) {
+      //將資料用filter語法去篩選
+      return cities.filter(place => {
+        // here we need to figure out if the city or state matches what was searched
+        //使用正則表達式，g表示找到所有匹配，而不是找到第一個就停，i表示忽略大小寫
+        const regex = new RegExp(wordToMatch, 'gi');
+        //有符合的話回傳資料的city屬性的值跟state屬性的值
+        return place.city.match(regex) || place.state.match(regex)
+      });
+    }
+    //函式作用為將數字轉為帶有逗點的數字
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+    //將符合的結果組成li並顯示在網頁上
+    function displayMatches() {
+      //呼叫findMatches函式，這邊的this會指向input，因為監聽事件綁定在他身上
+      const matchArray = findMatches(this.value, cities);
+      //將回傳結果逐一組成li並塞到html中
+      const html = matchArray.map(place => {
+        const regex = new RegExp(this.value, 'gi');
+        const cityName = place.city.replace(regex, `<span class="hl">${this.value}</span>`);
+        const stateName = place.state.replace(regex, `<span class="hl">${this.value}</span>`);
+        return `
+      <li>
+        <span class="name">${cityName}, ${stateName}</span>
+        <span class="population">${numberWithCommas(place.population)}</span>
+      </li>
+    `;
+        //map回傳值為一個陣列，用join將陣列每個值組成字串
+      }).join('');
+      suggestions.innerHTML = html;
+    }
+    //選取元素
+    const searchInput = document.querySelector('.search');
+    const suggestions = document.querySelector('.suggestions');
+    //監聽change跟keyup事件
+    searchInput.addEventListener('change', displayMatches);
+    searchInput.addEventListener('keyup', displayMatches);
+
+  </script>
+</body>
+
+</html>

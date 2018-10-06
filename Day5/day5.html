@@ -39,16 +39,20 @@
   </div>
 
   <script>
+    //選取所有class名為panel的元素
     const panels = document.querySelectorAll('.panel');
+    //panel點擊後增加open這個class名，如果已經有了則拿掉
     function toggleOpen() {
-      console.log('Hello');
       this.classList.toggle('open');
     }
+    //toggleActive主要在transition結束後呼叫，這時e.propertyName會有flex跟font-size
+    //所以取其中一種，執行一次toggle class就好
     function toggleActive(e) {
       if (e.propertyName.includes('flex')) {
         this.classList.toggle('open-active');
       }
     }
+    //將每個panel綁定點擊以及transitioned事件
     panels.forEach(panel => panel.addEventListener('click', toggleOpen));
     panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
   </script>
