@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <canvas id="draw" width="800" height="800"></canvas>
+  <script>
+    //選取id為draw的元素
+    const canvas = document.querySelector('#draw');
+    const ctx = canvas.getContext('2d');
+    //設定canvas寬度為window寬度
+    canvas.width = window.innerWidth;
+    //設定canvas高度為window高度
+    canvas.height = window.innerHeight;
+    ctx.strokeStyle = '#BADA55';
+    //當兩條線交會時，繪製成圓角
+    ctx.lineJoin = 'round';
+    //繪製線條的末端為圓角
+    ctx.lineCap = 'round';
+    //線條寬度為100
+    ctx.lineWidth = 100;
+    //判斷是否繪製當中
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let hue = 0;
+    //用來改變線條粗度的變數
+    let direction = true;
+    function draw(e) {
+      if (!isDrawing) return; // stop the fn from running when they are not moused down
+      //設定線條顏色
+      ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+      //開始繪圖
+      ctx.beginPath();
+      // start from
+      ctx.moveTo(lastX, lastY);
+      // go to 這邊的e為滑鼠位置
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+      //不段增加hue來做到改變顏色效果
+      hue++;
+      //當超過360時歸零再繼續累加
+      if (hue >= 360) {
+        hue = 0;
+      }
+      //當寬度大於等於100或是寬度小於等於1時改變direction狀態來做到增加或減少線條粗度
+      if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+        direction = !direction;
+      }
+      if (direction) {
+        ctx.lineWidth++;
+      } else {
+        ctx.lineWidth--;
+      }
+    }
+    //滑鼠左鍵壓下時，isDrawing為true，並將滑鼠的x,y軸儲存起來
+    canvas.addEventListener('mousedown', (e) => {
+      isDrawing = true;
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+    });
+    //監聽滑鼠移動，滑鼠左鍵壓下，放開事件以及滑鼠離開目標的事件
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    canvas.addEventListener('mouseout', () => isDrawing = false);
+  </script>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+    }
+  </style>
+</body>
+
+</html>
