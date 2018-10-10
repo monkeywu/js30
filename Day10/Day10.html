@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style/style.css">
+</head>
+
+<body>
+  <div class="inbox">
+    <div class="item">
+      <input type="checkbox">
+      <p>This is an inbox layout.</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Check one item</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Hold down your Shift key</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Check a lower item</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Everything inbetween should also be set to checked</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Try do it without any libraries</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Just regular JavaScript</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Good Luck!</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Don't forget to tweet your result!</p>
+    </div>
+  </div>
+
+  <script>
+    //選取所有input type為checkbox的元素
+    const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+    //宣告一個名為lastChecked的變數
+    let lastChecked;
+    function handleCheck(e) {
+      //宣告inBetween為false
+      // Check if they had the shift key down
+      // AND check that they are checking it
+      let inBetween = false;
+      console.log(this)
+      //判斷e.shiftKey是否為true，也就是是否有按下shift鍵，以及input是否為check狀態
+      //這邊的this為點擊當下的input
+      if (e.shiftKey && this.checked) {
+        // go ahead and do what we please
+        // loop over every single checkbox
+        //checkboxes去跑forEach迴圈時
+        //如果判斷到是第一個或最後一個點擊的input就改變inBetween的值
+        checkboxes.forEach(checkbox => {
+          if (checkbox === this || checkbox === lastChecked) {
+            inBetween = !inBetween;
+          }
+          //當inBetween的值為true時，將input的checked改為true
+          if (inBetween) {
+            checkbox.checked = true;
+          }
+        });
+      }
+      //這邊的this為當下點擊的input
+      lastChecked = this;
+    }
+    //將每一個input監聽點擊事件
+    checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
+  </script>
+</body>
+
+</html>
