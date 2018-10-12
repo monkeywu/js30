@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
+</head>
+
+<body>
+  <script>
+    //宣告一個陣列儲存使用者輸入過的文字
+    const pressed = [];
+    //宣告一個通關密碼
+    const secretCode = 'wesbos';
+    //監聽鍵盤按下的動作
+    window.addEventListener('keyup', (e) => {
+      //將按下的按鍵丟到陣列中
+      pressed.push(e.key);
+      //使用者很可能會輸入很多文字，造成陣列過長，所以將這列篩選，從最後往前數
+      pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length);
+      //把陣列用join('')重新組成字串，看是否有包含通關密碼，如果有就做事情
+      //這邊是使用原作者另外寫的一隻js跑出特效
+      if (pressed.join('').includes(secretCode)) {
+        console.log('DING DING!');
+        cornify_add();
+      }
+    });
+  </script>
+</body>
+
+</html>
